@@ -16,15 +16,16 @@ export default function Projects() {
           <div className="w-full h-[1px] bg-gray-200" />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-24">
-          {projects.map((projeto, i) => (
+        {/* Mobile View */}
+        <div className="flex flex-col gap-16 md:hidden">
+          {projects.map((projeto) => (
             <motion.div
               key={projeto.id}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.1 }}
-              transition={{ duration: 0.6, delay: i * 0.1, ease: "easeOut" }}
-              className={`group ${i % 2 === 1 ? "md:mt-24" : ""}`}
+              transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+              className="group"
             >
               <Link href={`/projects/${projeto.id}`} className="block">
                 <div className={`relative overflow-hidden bg-gray-100 mb-6 ${
@@ -57,6 +58,94 @@ export default function Projects() {
               </Link>
             </motion.div>
           ))}
+        </div>
+
+        {/* Desktop View (Masonry) */}
+        <div className="hidden md:flex flex-row gap-12">
+          <div className="flex flex-col gap-16 flex-1">
+            {projects.filter((_, i) => i % 2 === 0).map((projeto, i) => (
+              <motion.div
+                key={projeto.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.1 }}
+                transition={{ duration: 0.6, delay: i * 0.2, ease: "easeOut" }}
+                className="group"
+              >
+                <Link href={`/projects/${projeto.id}`} className="block">
+                  <div className={`relative overflow-hidden bg-gray-100 mb-6 ${
+                    projeto.mainImageAspect === 'square' ? 'aspect-square' : 
+                    projeto.mainImageAspect === 'portrait' ? 'aspect-[3/4]' :
+                    'aspect-[4/3]'
+                  }`}>
+                    <Image
+                      src={projeto.mainImage}
+                      alt={projeto.title}
+                      fill
+                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-500" />
+                  </div>
+
+                  <div className="flex flex-col md:flex-row md:justify-between md:items-baseline gap-4">
+                    <div>
+                      <h3 className="font-cormorant text-3xl text-gray-900 mb-1 group-hover:italic transition-all">
+                        {projeto.title}
+                      </h3>
+                      <p className="text-sm text-gray-500 tracking-wide uppercase">
+                        {projeto.company}
+                      </p>
+                    </div>
+                    <span className="self-start md:self-auto text-xs border border-gray-300 px-3 py-1 rounded-full text-gray-500 group-hover:border-gray-900 group-hover:text-gray-900 transition-colors">
+                      View Project
+                    </span>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+          <div className="flex flex-col gap-16 flex-1 mt-12">
+            {projects.filter((_, i) => i % 2 === 1).map((projeto, i) => (
+              <motion.div
+                key={projeto.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.1 }}
+                transition={{ duration: 0.6, delay: i * 0.2 + 0.1, ease: "easeOut" }}
+                className="group"
+              >
+                <Link href={`/projects/${projeto.id}`} className="block">
+                  <div className={`relative overflow-hidden bg-gray-100 mb-6 ${
+                    projeto.mainImageAspect === 'square' ? 'aspect-square' : 
+                    projeto.mainImageAspect === 'portrait' ? 'aspect-[3/4]' :
+                    'aspect-[4/3]'
+                  }`}>
+                    <Image
+                      src={projeto.mainImage}
+                      alt={projeto.title}
+                      fill
+                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-500" />
+                  </div>
+
+                  <div className="flex flex-col md:flex-row md:justify-between md:items-baseline gap-4">
+                    <div>
+                      <h3 className="font-cormorant text-3xl text-gray-900 mb-1 group-hover:italic transition-all">
+                        {projeto.title}
+                      </h3>
+                      <p className="text-sm text-gray-500 tracking-wide uppercase">
+                        {projeto.company}
+                      </p>
+                    </div>
+                    <span className="self-start md:self-auto text-xs border border-gray-300 px-3 py-1 rounded-full text-gray-500 group-hover:border-gray-900 group-hover:text-gray-900 transition-colors">
+                      View Project
+                    </span>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
