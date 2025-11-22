@@ -1,65 +1,56 @@
-import Image from "next/image";
+"use client";
 
-export default function Habilidades() {
+import { motion } from "framer-motion";
+
+export default function Skills() {
+  const skills = [
+    "AutoCAD", "SketchUp", "V-Ray", "Revit", 
+    "Photoshop", "Enscape", "Archicad", "Layout", 
+    "Illustrator", "Office 365"
+  ];
+
   return (
-    <div>
-      <section id="skills" className="py-12 lg:py-16 px-8 lg:px-10 border-y border-gray-200 bg-white rounded-sm">
-            <h2 className="font-medium font-outfit text-4xl lg:text-5xl mb-8 md:mb-10 text-gray-900">Habilidades</h2>
-            <div className="px-1 py-3 sm:px-4 sm:py-2">
-              <h3 className="font-open text-sm text-gray-500 mb-6 px-2 py-1 border border-gray-300 w-fit rounded-sm bg-gray-50">
-                Hard Skills
-              </h3>
-              <ul className="flex gap-6 md:gap-8 flex-wrap border-b border-gray-200 pb-8 select-none">
-                {[
-                  { name: "AutoCAD", src: "/autocad.svg", width: 56, percent: 80, extraClass: "brightness-0 opacity-80" },
-                  { name: "Revit", src: "/autodeskrevit.svg", width: 56, percent: 45, extraClass: "brightness-0 opacity-80" },
-                  { name: "SketchUp", src: "/sketchup.svg", width: 56, percent: 80, extraClass: "brightness-0 opacity-80" },
-                  { name: "Layout", src: "/layout.png", width: 56, percent: 55, extraClass: "brightness-0 opacity-80" },
-                  { name: "Enscape", src: "/enscape.png", width: 56, percent: 80, extraClass: "brightness-0 opacity-80" },
-                  { name: "V Ray", src: "/v-ray.svg", width: 56, percent: 80, extraClass: "brightness-0 opacity-80" },
-                  { name: "Archicad", src: "/archicad.svg", width: 56, percent: 55, extraClass: "brightness-0 opacity-80" },
-                  { name: "Photoshop", src: "/adobe-photoshop.svg", width: 56, percent: 80, extraClass: "brightness-0 opacity-80" },
-                  { name: "Illustrator", src: "/adobe-illustrator.svg", width: 56, percent: 30, extraClass: "brightsness-0 opacity-80" },
-                  { name: "Office|365", src: "/365.png", width: 56, percent: 55, extraClass: "brightness-0 opacity-80" },
-                ].map((skill) => (
-                  <li key={skill.name} className="flex flex-col items-center text-center hover:scale-110 transition-transform duration-300">
-                    <span className="mb-1 text-gray-800 font-semibold font-open text-sm">{skill.name}</span>
-                    <Image
-                      className={`w-11 h-11 ${skill.extraClass || ""}`}
-                      src={skill.src}
-                      alt={skill.name}
-                      width={56}
-                      height={56}
-                    />
-                    <div className="mt-3 w-[72px] h-[13px] bg-gray-200 rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-gradient-to-r from-blue-200 to-blue-300 rounded-full"
-                        style={{ width: `${skill.percent}%` }}
-                      ></div>
-                    </div>
-                  </li>
-                ))}
-              </ul>
+    <section id="skills" className="py-20 md:py-32 px-6 md:px-12 bg-[#FAFAFA]">
+      <div className="max-w-[1200px] mx-auto grid lg:grid-cols-12 gap-12">
+        <div className="lg:col-span-4">
+          <h2 className="font-cormorant text-4xl md:text-5xl text-gray-900 mb-8">
+            Technical <br /> Expertise
+          </h2>
+        </div>
 
-              <h3 className="font-open text-sm text-gray-500 mt-8 mb-6 px-2 py-1 border border-gray-300 w-fit rounded-sm bg-gray-50">
-                Soft Skills
-              </h3>
-              <ul className="flex flex-col gap-4 text-lg lg:text-xl list-disc pl-6">
-                <li className="font-open text-gray-800">
-                  <strong className="text-gray-900">Inglês</strong> - Avançado
-                </li>
-                <li className="font-open text-gray-800">
-                  Experiência com representação gráfica e modelagem 3D de projetos arquitetônicos
-                </li>
-                <li className="font-open text-gray-800">
-                  Habilidade em desenvolver pranchas técnicas e colaborar em projetos de interiores
-                </li>
-                <li className="font-open text-gray-800">
-                  Facilidade para trabalhar em equipe, organização e proatividade no ambiente profissional
-                </li>
-              </ul>
+        <div className="lg:col-span-8">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-y-8 gap-x-4">
+            {skills.map((skill, i) => (
+              <motion.div
+                key={skill}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.05 }}
+                className="flex items-center gap-4 group"
+              >
+                <span className="h-[1px] w-4 bg-gray-300 group-hover:w-8 group-hover:bg-gray-900 transition-all duration-300" />
+                <span className="text-lg font-light text-gray-600 group-hover:text-gray-900 transition-colors">
+                  {skill}
+                </span>
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="mt-16 pt-16 border-t border-gray-200">
+            <h3 className="font-cormorant text-2xl text-gray-900 mb-6">Soft Skills</h3>
+            <div className="flex flex-col md:flex-row md:flex-wrap gap-4 md:gap-8 text-gray-500 font-light">
+              <span>English (Professional Working Proficiency)</span>
+              <span className="hidden md:inline">•</span>
+              <span>Team Collaboration</span>
+              <span className="hidden md:inline">•</span>
+              <span>Detail Oriented</span>
+              <span className="hidden md:inline">•</span>
+              <span>Proactive Problem Solving</span>
             </div>
-          </section>
-    </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }

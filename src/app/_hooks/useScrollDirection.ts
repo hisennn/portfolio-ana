@@ -6,24 +6,24 @@ type ScrollDirection = 'up' | 'down' | null;
 
 export function useScrollDirection() {
   const [scrollDirection, setScrollDirection] = useState<ScrollDirection>(null);
-  const [prevOffset, setPrevOffset] = useState(0);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const currentOffset = window.scrollY;
-      const direction = currentOffset > prevOffset ? 'down' : 'up';
-      
-      if (direction !== scrollDirection && 
-          (Math.abs(currentOffset - prevOffset) > 10)) {
+    let lastScrollY = window.scrollY;
+
+    const updateScrollDirection = () => {
+      const scrollY = window.scrollY;
+      const direction = scrollY > lastScrollY ? "down" : "up";
+      if (direction !== scrollDirection && (scrollY - lastScrollY > 10 || scrollY - lastScrollY < -10)) {
         setScrollDirection(direction);
       }
-      
-      setPrevOffset(currentOffset);
+      lastScrollY = scrollY > 0 ? scrollY : 0;
     };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [prevOffset, scrollDirection]);
+    
+    window.addEventListener("scroll", updateScrollDirection);
+    return () => {
+      window.removeEventListener("scroll", updateScrollDirection);
+    };
+  }, [scrollDirection]);
 
   return scrollDirection;
-} 
+}

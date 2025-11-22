@@ -1,21 +1,23 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Inter, Outfit } from "next/font/google";
+import { Outfit, Cormorant_Garamond } from "next/font/google";
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-});
 const outfit = Outfit({
   subsets: ["latin"],
   variable: "--font-outfit",
   display: "swap",
 });
 
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  variable: "--font-cormorant",
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  title: "Ana Zabala - Arquiteta & Urbanista",
-  description: "Portfólio de Ana Zabala",
+  title: "Ana Zabala | Architectural Designer",
+  description: "Portfolio of Ana Zabala - Architectural Designer & 3D Visualizer. Specialized in residential interiors and photorealistic rendering.",
 };
 
 export default function RootLayout({
@@ -24,8 +26,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" className={`${inter.variable} ${outfit.variable}`}>
-      <body className="antialiased">{children}</body>
+    <html lang="en" className={`${outfit.variable} ${cormorant.variable} scroll-smooth`}>
+      <body className="antialiased bg-[#FAFAFA] text-gray-900">{children}</body>
     </html>
   );
 }
