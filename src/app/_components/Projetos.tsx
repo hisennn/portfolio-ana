@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 export default function Projects() {
   return (
     <section id="projects" className="py-20 md:py-32 px-6 md:px-12 bg-white">
-      <div className="max-w-[1600px] mx-auto">
+      <div className="max-w-[1280px] mx-auto">
         <div className="mb-16 md:mb-24">
           <h2 className="font-cormorant text-5xl md:text-6xl text-gray-900 mb-6">
             Selected Works
@@ -27,7 +27,11 @@ export default function Projects() {
               className={`group ${i % 2 === 1 ? "md:mt-24" : ""}`}
             >
               <Link href={`/projects/${projeto.id}`} className="block">
-                <div className="relative aspect-[4/3] overflow-hidden bg-gray-100 mb-6">
+                <div className={`relative overflow-hidden bg-gray-100 mb-6 ${
+                  projeto.mainImageAspect === 'square' ? 'aspect-square' : 
+                  projeto.mainImageAspect === 'portrait' ? 'aspect-[3/4]' :
+                  'aspect-[4/3]'
+                }`}>
                   <Image
                     src={projeto.mainImage}
                     alt={projeto.title}

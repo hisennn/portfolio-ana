@@ -6,10 +6,12 @@ export interface Project {
   company: string;
   technologies: string[];
   mainImage: string;
+  mainImageAspect?: "square" | "video" | "4/3" | "portrait";
   gallery: {
     type: "render" | "technical" | "sketchup";
     url: string;
     caption: string;
+    aspect?: "square" | "video" | "4/3" | "portrait";
   }[];
 }
 
@@ -22,16 +24,19 @@ export const projects: Project[] = [
     company: "Personal Project",
     technologies: ["SketchUp", "V-Ray"],
     mainImage: "/img/projetos/compact-office/office-view.png",
+    mainImageAspect: "4/3",
     gallery: [
       {
         type: "render",
         url: "/img/projetos/compact-office/office-view.png",
-        caption: "Workspace View"
+        caption: "Workspace View",
+        aspect: "4/3"
       },
       {
         type: "render",
         url: "/img/projetos/compact-office/office-iso.png",
-        caption: "Isometric Layout"
+        caption: "Isometric Layout",
+        aspect: "4/3"
       }
     ]
   },
@@ -43,36 +48,49 @@ export const projects: Project[] = [
     company: "Patrícia Ribeiro Design de Interiores",
     technologies: ["SketchUp", "V-Ray"],
     mainImage: "/img/projetos/social-living/living-01.png",
+    mainImageAspect: "4/3",
     gallery: [
       {
         type: "render",
         url: "/img/projetos/social-living/living-01.png",
-        caption: "Living Room"
+        caption: "Living Room",
+        aspect: "4/3"
       },
       {
         type: "render",
         url: "/img/projetos/social-living/living-02.png",
-        caption: "TV Wall Detail"
+        caption: "TV Wall Detail",
+        aspect: "4/3"
       },
       {
         type: "render",
         url: "/img/projetos/social-living/dining.png",
-        caption: "Dining Area"
+        caption: "Dining Area",
+        aspect: "4/3"
       },
       {
         type: "render",
         url: "/img/projetos/social-living/kitchen.png",
-        caption: "Kitchen"
+        caption: "Kitchen",
+        aspect: "4/3"
       },
       {
         type: "render",
         url: "/img/projetos/social-living/balcony-01.png",
-        caption: "Gourmet Balcony"
+        caption: "Gourmet Balcony",
+        aspect: "4/3"
       },
       {
         type: "render",
         url: "/img/projetos/social-living/balcony-02.png",
-        caption: "Balcony Seating"
+        caption: "Balcony Seating",
+        aspect: "4/3"
+      },
+      {
+        type: "render",
+        url: "/img/projetos/social-living/balcony-03.png",
+        caption: "Balcony Detail",
+        aspect: "4/3"
       }
     ]
   },
@@ -84,26 +102,31 @@ export const projects: Project[] = [
     company: "Patrícia Ribeiro Design de Interiores",
     technologies: ["SketchUp", "V-Ray"],
     mainImage: "/img/projetos/private-suites/master-01.png",
+    mainImageAspect: "4/3",
     gallery: [
       {
         type: "render",
         url: "/img/projetos/private-suites/master-01.png",
-        caption: "Master Bedroom"
+        caption: "Master Bedroom",
+        aspect: "4/3"
       },
       {
         type: "render",
         url: "/img/projetos/private-suites/master-02.png",
-        caption: "Master Bedroom View 2"
+        caption: "Master Bedroom View 2",
+        aspect: "4/3"
       },
       {
         type: "render",
         url: "/img/projetos/private-suites/guest-01.png",
-        caption: "Guest Bedroom"
+        caption: "Guest Bedroom",
+        aspect: "4/3"
       },
       {
         type: "render",
         url: "/img/projetos/private-suites/guest-02.png",
-        caption: "Guest Bedroom Workspace"
+        caption: "Guest Bedroom Workspace",
+        aspect: "4/3"
       }
     ]
   },
@@ -115,21 +138,25 @@ export const projects: Project[] = [
     company: "Patrícia Ribeiro Design de Interiores",
     technologies: ["SketchUp", "V-Ray"],
     mainImage: "/img/projetos/area-gourmet/gourmet-01.png",
+    mainImageAspect: "4/3",
     gallery: [
       {
         type: "render",
         url: "/img/projetos/area-gourmet/gourmet-01.png",
-        caption: "Overview"
+        caption: "Overview",
+        aspect: "4/3"
       },
       {
         type: "render",
         url: "/img/projetos/area-gourmet/gourmet-02.png",
-        caption: "Counter Detail"
+        caption: "Counter Detail",
+        aspect: "4/3"
       },
       {
         type: "render",
         url: "/img/projetos/area-gourmet/gourmet-03.png",
-        caption: "Dining Setup"
+        caption: "Dining Setup",
+        aspect: "4/3"
       }
     ]
   },
@@ -187,21 +214,25 @@ export const projects: Project[] = [
     company: "Patrícia Ribeiro Design de Interiores",
     technologies: ["SketchUp", "V-Ray"],
     mainImage: "/img/projetos/kids-room/view-01.png",
+    mainImageAspect: "square",
     gallery: [
       {
         type: "render",
         url: "/img/projetos/kids-room/view-01.png",
-        caption: "Bed Area"
+        caption: "Bed Area",
+        aspect: "square"
       },
       {
         type: "render",
         url: "/img/projetos/kids-room/view-02.png",
-        caption: "Study Desk"
+        caption: "Study Desk",
+        aspect: "square"
       },
       {
         type: "render",
         url: "/img/projetos/kids-room/view-03.png",
-        caption: "Storage View"
+        caption: "Storage View",
+        aspect: "square"
       }
     ]
   },
@@ -213,21 +244,25 @@ export const projects: Project[] = [
     company: "Patrícia Ribeiro Design de Interiores",
     technologies: ["SketchUp", "V-Ray"],
     mainImage: "/img/projetos/closet-office/closet-open.png",
+    mainImageAspect: "portrait",
     gallery: [
       {
         type: "render",
         url: "/img/projetos/closet-office/closet-open.png",
-        caption: "Open Closet"
+        caption: "Open Closet",
+        aspect: "portrait"
       },
       {
         type: "render",
         url: "/img/projetos/closet-office/closet-closed.png",
-        caption: "Closed Closet"
+        caption: "Closed Closet",
+        aspect: "portrait"
       },
       {
         type: "render",
         url: "/img/projetos/closet-office/desk.png",
-        caption: "Dressing Area"
+        caption: "Dressing Area",
+        aspect: "portrait"
       }
     ]
   }

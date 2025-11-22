@@ -26,7 +26,7 @@ export default function ProjectDetail() {
         </span>
       </nav>
 
-      <div className="max-w-[900px] mx-auto px-6 md:px-12 pt-24 md:pt-32">
+      <div className="max-w-[720px] mx-auto px-6 md:px-12 pt-24 md:pt-32">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -60,7 +60,12 @@ export default function ProjectDetail() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.6, delay: idx * 0.1, ease: "easeOut" }}
                     >
-                      <div className="relative aspect-video w-full overflow-hidden bg-gray-100 mb-4">
+                      <div className={`relative w-full overflow-hidden bg-gray-100 mb-4 ${
+                        item.aspect === 'square' ? 'aspect-square' : 
+                        item.aspect === '4/3' ? 'aspect-[4/3]' : 
+                        item.aspect === 'portrait' ? 'aspect-[3/4]' :
+                        'aspect-video'
+                      }`}>
                         <Image
                           src={item.url}
                           alt={item.caption}
@@ -127,7 +132,11 @@ export default function ProjectDetail() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.6, delay: idx * 0.1, ease: "easeOut" }}
                     >
-                      <div className="relative aspect-video overflow-hidden bg-gray-100 mb-4">
+                      <div className={`relative overflow-hidden bg-gray-100 mb-4 ${
+                        item.aspect === 'square' ? 'aspect-square' : 
+                        item.aspect === '4/3' ? 'aspect-[4/3]' : 
+                        'aspect-video'
+                      }`}>
                         <Image
                           src={item.url}
                           alt={item.caption}
