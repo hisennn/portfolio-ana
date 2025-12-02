@@ -24,7 +24,11 @@ const itemVariants: Variants = {
 };
 
 export default function Hero() {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
+  
+  const resumeFile = language === 'pt' 
+    ? '/downloads/Ana_Zabala_Curriculo.pdf' 
+    : '/downloads/Ana_Zabala_Resume.pdf';
   
   return (
     <section className="relative min-h-screen flex flex-col justify-center px-6 md:px-12 pt-20 overflow-hidden bg-[var(--background)]">
@@ -34,17 +38,10 @@ export default function Hero() {
           initial="hidden"
           animate="visible"
         >
-          <motion.div variants={itemVariants} className="flex items-center justify-between mb-6">
+          <motion.div variants={itemVariants} className="mb-6">
             <h2 className="text-sm md:text-base tracking-[0.3em] text-[var(--text-muted)] uppercase pl-1">
               {t('hero.subtitle')}
             </h2>
-            <a 
-              href="/downloads/Ana_Zabala_Designer_Resume.pdf" 
-              download
-              className="text-xs md:text-sm tracking-widest uppercase text-[var(--text-muted)] hover:text-[var(--foreground)] transition-colors duration-300"
-            >
-              {t('footer.resume')}
-            </a>
           </motion.div>
           
           <motion.h1 variants={itemVariants} className="font-cormorant text-6xl md:text-8xl lg:text-9xl font-light text-[var(--foreground)] leading-[0.85] tracking-tight mb-8">
@@ -58,12 +55,25 @@ export default function Hero() {
             {t('hero.description')}
           </motion.p>
 
-          <motion.div variants={itemVariants} className="flex items-center gap-2 text-base text-[var(--text-muted)] mb-12">
+          <motion.div variants={itemVariants} className="flex items-center gap-2 text-base text-[var(--text-muted)] mb-6">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
             </svg>
             <span>{t('hero.location')}</span>
+          </motion.div>
+
+          <motion.div variants={itemVariants} className="mb-6">
+            <a 
+              href={resumeFile}
+              download
+              className="inline-flex items-center gap-2 text-sm tracking-widest uppercase text-[var(--text-muted)] hover:text-[var(--foreground)] transition-colors duration-300"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+              {t('footer.resume')}
+            </a>
           </motion.div>
 
           <motion.div variants={itemVariants} className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-8 text-sm tracking-widest uppercase text-[var(--text-muted)]">

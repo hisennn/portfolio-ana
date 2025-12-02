@@ -4,7 +4,11 @@ import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 
 export default function Footer() {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
+  
+  const resumeFile = language === 'pt' 
+    ? '/downloads/Ana_Zabala_Curriculo.pdf' 
+    : '/downloads/Ana_Zabala_Resume.pdf';
   
   return (
     <footer id="contact" className="py-16 md:py-20 px-6 md:px-12 bg-[#2D2D2D] dark:bg-[#141414] text-white">
@@ -31,7 +35,7 @@ export default function Footer() {
                 LinkedIn
               </Link>
               <span className="text-gray-600">·</span>
-              <a href="/downloads/Ana_Zabala_Designer_Resume.pdf" download className="hover:text-white transition-colors duration-300">
+              <a href={resumeFile} download className="hover:text-white transition-colors duration-300">
                 {t('footer.resume')}
               </a>
             </div>
