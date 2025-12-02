@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Outfit, Cormorant_Garamond } from "next/font/google";
+import { LanguageProvider } from "@/context/LanguageContext";
+import { ThemeProvider } from "@/context/ThemeContext";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -26,8 +28,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${outfit.variable} ${cormorant.variable} scroll-smooth`}>
-      <body className="antialiased bg-[#FAFAFA] text-gray-900">{children}</body>
+    <html lang="en" className={`${outfit.variable} ${cormorant.variable} scroll-smooth`} suppressHydrationWarning>
+      <body className="antialiased bg-[var(--background)] text-[var(--foreground)] transition-colors duration-300">
+        <ThemeProvider>
+          <LanguageProvider>
+            {children}
+          </LanguageProvider>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

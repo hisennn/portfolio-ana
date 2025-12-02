@@ -4,19 +4,21 @@ import Image from "next/image";
 import Link from "next/link";
 import { projects } from "@/data/projects";
 import { motion } from "framer-motion";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function Projects() {
+  const { language, t } = useLanguage();
+  
   return (
-    <section id="projects" className="py-20 md:py-32 px-6 md:px-12 bg-white">
+    <section id="projects" className="py-20 md:py-32 px-6 md:px-12 bg-[var(--card)]">
       <div className="max-w-[1280px] mx-auto">
-        <div className="mb-16 md:mb-24">
-          <h2 className="font-cormorant text-5xl md:text-6xl text-gray-900 mb-6">
-            Selected Works
+        <div className="mb-12 md:mb-20">
+          <h2 className="font-cormorant text-4xl md:text-5xl lg:text-6xl text-[var(--foreground)] mb-4">
+            {t('projects.title')}
           </h2>
-          <div className="w-full h-[1px] bg-gray-200" />
+          <div className="w-full h-px bg-[var(--border)]" />
         </div>
 
-        {/* Mobile View */}
         <div className="flex flex-col gap-16 md:hidden">
           {projects.map((projeto) => (
             <motion.div
@@ -28,31 +30,31 @@ export default function Projects() {
               className="group"
             >
               <Link href={`/projects/${projeto.id}`} className="block">
-                <div className={`relative overflow-hidden bg-gray-100 mb-6 ${
+                <div className={`relative overflow-hidden bg-[var(--border)] mb-6 ${
                   projeto.mainImageAspect === 'square' ? 'aspect-square' : 
                   projeto.mainImageAspect === 'portrait' ? 'aspect-[3/4]' :
                   'aspect-[4/3]'
                 }`}>
                   <Image
                     src={projeto.mainImage}
-                    alt={projeto.title}
+                    alt={projeto.title[language]}
                     fill
                     className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-500" />
                 </div>
 
-                <div className="flex flex-col md:flex-row md:justify-between md:items-baseline gap-4">
+                <div className="flex flex-col md:flex-row md:justify-between md:items-baseline gap-3">
                   <div>
-                    <h3 className="font-cormorant text-3xl text-gray-900 mb-1 group-hover:italic transition-all">
-                      {projeto.title}
+                    <h3 className="font-cormorant text-2xl md:text-3xl text-[var(--foreground)] mb-1 group-hover:italic transition-all duration-300">
+                      {projeto.title[language]}
                     </h3>
-                    <p className="text-sm text-gray-500 tracking-wide uppercase">
+                    <p className="text-sm text-[var(--text-muted)] tracking-wider uppercase">
                       {projeto.company}
                     </p>
                   </div>
-                  <span className="self-start md:self-auto text-xs border border-gray-300 px-3 py-1 rounded-full text-gray-500 group-hover:border-gray-900 group-hover:text-gray-900 transition-colors">
-                    View Project
+                  <span className="self-start md:self-auto text-sm border border-[var(--text-muted)] px-3 py-1.5 rounded-full text-[var(--text-muted)] group-hover:border-[var(--foreground)] group-hover:text-[var(--foreground)] transition-all duration-300">
+                    {t('projects.viewProject')}
                   </span>
                 </div>
               </Link>
@@ -60,7 +62,6 @@ export default function Projects() {
           ))}
         </div>
 
-        {/* Desktop View (Masonry) */}
         <div className="hidden md:flex flex-row gap-12">
           <div className="flex flex-col gap-16 flex-1">
             {projects.filter((_, i) => i % 2 === 0).map((projeto, i) => (
@@ -73,38 +74,38 @@ export default function Projects() {
                 className="group"
               >
                 <Link href={`/projects/${projeto.id}`} className="block">
-                  <div className={`relative overflow-hidden bg-gray-100 mb-6 ${
+                  <div className={`relative overflow-hidden bg-[var(--border)] mb-6 ${
                     projeto.mainImageAspect === 'square' ? 'aspect-square' : 
                     projeto.mainImageAspect === 'portrait' ? 'aspect-[3/4]' :
                     'aspect-[4/3]'
                   }`}>
                     <Image
                       src={projeto.mainImage}
-                      alt={projeto.title}
+                      alt={projeto.title[language]}
                       fill
                       className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-500" />
                   </div>
 
-                  <div className="flex flex-col md:flex-row md:justify-between md:items-baseline gap-4">
+                  <div className="flex flex-col md:flex-row md:justify-between md:items-baseline gap-3">
                     <div>
-                      <h3 className="font-cormorant text-3xl text-gray-900 mb-1 group-hover:italic transition-all">
-                        {projeto.title}
+                      <h3 className="font-cormorant text-2xl lg:text-3xl text-[var(--foreground)] mb-1 group-hover:italic transition-all duration-300">
+                        {projeto.title[language]}
                       </h3>
-                      <p className="text-sm text-gray-500 tracking-wide uppercase">
+                      <p className="text-sm text-[var(--text-muted)] tracking-wider uppercase">
                         {projeto.company}
                       </p>
                     </div>
-                    <span className="self-start md:self-auto text-xs border border-gray-300 px-3 py-1 rounded-full text-gray-500 group-hover:border-gray-900 group-hover:text-gray-900 transition-colors">
-                      View Project
+                    <span className="self-start md:self-auto text-sm border border-[var(--text-muted)] px-3 py-1.5 rounded-full text-[var(--text-muted)] group-hover:border-[var(--foreground)] group-hover:text-[var(--foreground)] transition-all duration-300">
+                      {t('projects.viewProject')}
                     </span>
                   </div>
                 </Link>
               </motion.div>
             ))}
           </div>
-          <div className="flex flex-col gap-16 flex-1 mt-12">
+          <div className="flex flex-col gap-16 flex-1 mt-16">
             {projects.filter((_, i) => i % 2 === 1).map((projeto, i) => (
               <motion.div
                 key={projeto.id}
@@ -115,31 +116,31 @@ export default function Projects() {
                 className="group"
               >
                 <Link href={`/projects/${projeto.id}`} className="block">
-                  <div className={`relative overflow-hidden bg-gray-100 mb-6 ${
+                  <div className={`relative overflow-hidden bg-[var(--border)] mb-6 ${
                     projeto.mainImageAspect === 'square' ? 'aspect-square' : 
                     projeto.mainImageAspect === 'portrait' ? 'aspect-[3/4]' :
                     'aspect-[4/3]'
                   }`}>
                     <Image
                       src={projeto.mainImage}
-                      alt={projeto.title}
+                      alt={projeto.title[language]}
                       fill
                       className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-500" />
                   </div>
 
-                  <div className="flex flex-col md:flex-row md:justify-between md:items-baseline gap-4">
+                  <div className="flex flex-col md:flex-row md:justify-between md:items-baseline gap-3">
                     <div>
-                      <h3 className="font-cormorant text-3xl text-gray-900 mb-1 group-hover:italic transition-all">
-                        {projeto.title}
+                      <h3 className="font-cormorant text-2xl lg:text-3xl text-[var(--foreground)] mb-1 group-hover:italic transition-all duration-300">
+                        {projeto.title[language]}
                       </h3>
-                      <p className="text-sm text-gray-500 tracking-wide uppercase">
+                      <p className="text-sm text-[var(--text-muted)] tracking-wider uppercase">
                         {projeto.company}
                       </p>
                     </div>
-                    <span className="self-start md:self-auto text-xs border border-gray-300 px-3 py-1 rounded-full text-gray-500 group-hover:border-gray-900 group-hover:text-gray-900 transition-colors">
-                      View Project
+                    <span className="self-start md:self-auto text-sm border border-[var(--text-muted)] px-3 py-1.5 rounded-full text-[var(--text-muted)] group-hover:border-[var(--foreground)] group-hover:text-[var(--foreground)] transition-all duration-300">
+                      {t('projects.viewProject')}
                     </span>
                   </div>
                 </Link>

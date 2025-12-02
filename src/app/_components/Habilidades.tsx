@@ -1,8 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function Skills() {
+  const { t } = useLanguage();
+  
   const skills = [
     "AutoCAD", "SketchUp", "V-Ray", "Revit", 
     "Photoshop", "Enscape", "Archicad", "Layout", 
@@ -10,43 +13,43 @@ export default function Skills() {
   ];
 
   return (
-    <section id="skills" className="py-20 md:py-32 px-6 md:px-12 bg-[#FAFAFA]">
-      <div className="max-w-[1200px] mx-auto grid lg:grid-cols-12 gap-12">
+    <section id="skills" className="py-20 md:py-28 px-6 md:px-12 bg-[var(--background)]">
+      <div className="max-w-[1200px] mx-auto grid lg:grid-cols-12 gap-10 lg:gap-16">
         <div className="lg:col-span-4">
-          <h2 className="font-cormorant text-4xl md:text-5xl text-gray-900 mb-8">
-            Technical <br /> Expertise
+          <h2 className="font-cormorant text-3xl md:text-4xl lg:text-5xl text-[var(--foreground)] mb-6 lg:mb-0">
+            {t('skills.title')}
           </h2>
         </div>
 
         <div className="lg:col-span-8">
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-y-8 gap-x-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-y-6 gap-x-4">
             {skills.map((skill, i) => (
               <motion.div
                 key={skill}
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.05 }}
-                className="flex items-center gap-4 group"
+                transition={{ delay: i * 0.04 }}
+                className="flex items-center gap-3 group cursor-default"
               >
-                <span className="h-[1px] w-4 bg-gray-300 group-hover:w-8 group-hover:bg-gray-900 transition-all duration-300" />
-                <span className="text-lg font-light text-gray-600 group-hover:text-gray-900 transition-colors">
+                <span className="h-px w-3 bg-[var(--text-muted)] group-hover:w-6 group-hover:bg-[var(--foreground)] transition-all duration-300" />
+                <span className="text-xl font-light text-[var(--text-secondary)] group-hover:text-[var(--foreground)] transition-colors duration-300">
                   {skill}
                 </span>
               </motion.div>
             ))}
           </div>
 
-          <div className="mt-16 pt-16 border-t border-gray-200">
-            <h3 className="font-cormorant text-2xl text-gray-900 mb-6">Soft Skills</h3>
-            <div className="flex flex-col md:flex-row md:flex-wrap gap-4 md:gap-8 text-gray-500 font-light">
-              <span>English (Professional Working Proficiency)</span>
-              <span className="hidden md:inline">•</span>
-              <span>Team Collaboration</span>
-              <span className="hidden md:inline">•</span>
-              <span>Detail Oriented</span>
-              <span className="hidden md:inline">•</span>
-              <span>Proactive Problem Solving</span>
+          <div className="mt-12 pt-12 border-t border-[var(--border)]">
+            <h3 className="font-cormorant text-xl md:text-2xl text-[var(--foreground)] mb-4 font-medium">{t('skills.soft')}</h3>
+            <div className="flex flex-col md:flex-row md:flex-wrap gap-3 md:gap-6 text-lg text-[var(--text-secondary)] font-light">
+              <span>{t('skills.english')}</span>
+              <span className="hidden md:inline text-[var(--text-muted)]">·</span>
+              <span>{t('skills.teamwork')}</span>
+              <span className="hidden md:inline text-[var(--text-muted)]">·</span>
+              <span>{t('skills.detail')}</span>
+              <span className="hidden md:inline text-[var(--text-muted)]">·</span>
+              <span>{t('skills.problem')}</span>
             </div>
           </div>
         </div>
