@@ -49,12 +49,13 @@ export default function Projects() {
                     <h3 className="font-cormorant text-2xl md:text-3xl text-[var(--foreground)] mb-1 group-hover:italic transition-all duration-300">
                       {projeto.title[language]}
                     </h3>
-                    <p className="text-sm text-[var(--text-muted)] tracking-wider uppercase mb-1">
-                      {projeto.company}
-                    </p>
-                    <p className="text-[10px] text-[var(--text-secondary)] tracking-widest uppercase opacity-70 group-hover:opacity-100 transition-opacity">
+                    <p className="text-[10px] text-[var(--text-secondary)] tracking-widest uppercase opacity-70 group-hover:opacity-100 transition-opacity mb-2">
                       {projeto.technologies.join(" · ")}
                     </p>
+                    <p className="text-sm text-[var(--text-muted)] tracking-wider uppercase">
+                      {projeto.company}
+                    </p>
+
 
                   </div>
                   <span className="self-start md:self-auto text-sm border border-[var(--text-muted)] px-3 py-1.5 rounded-full text-[var(--text-muted)] group-hover:border-[var(--foreground)] group-hover:text-[var(--foreground)] transition-all duration-300">
@@ -97,9 +98,13 @@ export default function Projects() {
                       <h3 className="font-cormorant text-2xl lg:text-3xl text-[var(--foreground)] mb-1 group-hover:italic transition-all duration-300">
                         {projeto.title[language]}
                       </h3>
+                      <p className="text-[10px] text-[var(--text-secondary)] tracking-widest uppercase opacity-70 group-hover:opacity-100 transition-opacity mb-2">
+                        {projeto.technologies.join(" · ")}
+                      </p>
                       <p className="text-sm text-[var(--text-muted)] tracking-wider uppercase">
                         {projeto.company}
                       </p>
+
                     </div>
                     <span className="self-start md:self-auto text-sm border border-[var(--text-muted)] px-3 py-1.5 rounded-full text-[var(--text-muted)] group-hover:border-[var(--foreground)] group-hover:text-[var(--foreground)] transition-all duration-300">
                       {t('projects.viewProject')}
@@ -139,9 +144,13 @@ export default function Projects() {
                       <h3 className="font-cormorant text-2xl lg:text-3xl text-[var(--foreground)] mb-1 group-hover:italic transition-all duration-300">
                         {projeto.title[language]}
                       </h3>
+                      <p className="text-[10px] text-[var(--text-secondary)] tracking-widest uppercase opacity-70 group-hover:opacity-100 transition-opacity mb-2">
+                        {projeto.technologies.join(" · ")}
+                      </p>
                       <p className="text-sm text-[var(--text-muted)] tracking-wider uppercase">
                         {projeto.company}
                       </p>
+
                     </div>
                     <span className="self-start md:self-auto text-sm border border-[var(--text-muted)] px-3 py-1.5 rounded-full text-[var(--text-muted)] group-hover:border-[var(--foreground)] group-hover:text-[var(--foreground)] transition-all duration-300">
                       {t('projects.viewProject')}
