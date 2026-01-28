@@ -49,7 +49,7 @@ export default function Projects() {
                     <h3 className="font-cormorant text-2xl md:text-3xl text-[var(--foreground)] mb-1 group-hover:italic transition-all duration-300">
                       {projeto.title[language]}
                     </h3>
-                    <p className="text-[11px] text-[var(--text-secondary)] tracking-widest uppercase opacity-70 group-hover:opacity-100 transition-opacity mb-2">
+                    <p className="text-[12px] text-[var(--text-secondary)] tracking-widest uppercase opacity-70 group-hover:opacity-100 transition-opacity mb-2">
                       {projeto.technologies.join(" · ")}
                     </p>
                     <p className="text-sm text-[var(--text-muted)] tracking-wider uppercase">
@@ -98,7 +98,7 @@ export default function Projects() {
                       <h3 className="font-cormorant text-2xl lg:text-3xl text-[var(--foreground)] mb-1 group-hover:italic transition-all duration-300">
                         {projeto.title[language]}
                       </h3>
-                      <p className="text-[10px] text-[var(--text-secondary)] tracking-widest uppercase opacity-70 group-hover:opacity-100 transition-opacity mb-2">
+                      <p className="text-[12px] text-[var(--text-secondary)] tracking-widest uppercase opacity-70 group-hover:opacity-100 transition-opacity mb-2">
                         {projeto.technologies.join(" · ")}
                       </p>
                       <p className="text-sm text-[var(--text-muted)] tracking-wider uppercase">
@@ -144,7 +144,7 @@ export default function Projects() {
                       <h3 className="font-cormorant text-2xl lg:text-3xl text-[var(--foreground)] mb-1 group-hover:italic transition-all duration-300">
                         {projeto.title[language]}
                       </h3>
-                      <p className="text-[10px] text-[var(--text-secondary)] tracking-widest uppercase opacity-70 group-hover:opacity-100 transition-opacity mb-2">
+                      <p className="text-[12px] text-[var(--text-secondary)] tracking-widest uppercase opacity-70 group-hover:opacity-100 transition-opacity mb-2">
                         {projeto.technologies.join(" · ")}
                       </p>
                       <p className="text-sm text-[var(--text-muted)] tracking-wider uppercase">
