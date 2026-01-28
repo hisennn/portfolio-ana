@@ -181,7 +181,7 @@ export const projects: Project[] = [
     },
     role: { en: "Technical Drawing", pt: "Desenho Técnico" },
     company: "Patrícia Ribeiro Design de Interiores",
-    technologies: ["AutoCAD", "Layout"],
+    technologies: ["AutoCAD"],
     mainImage: "/img/projetos/projeto-areagourmet-1-desenhos-tecnicos/ÁreaGourmet.png",
     gallery: [
       {

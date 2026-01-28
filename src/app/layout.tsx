@@ -29,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${outfit.variable} ${cormorant.variable} scroll-smooth`} suppressHydrationWarning>
-      <body className="antialiased bg-[var(--background)] text-[var(--foreground)] transition-colors duration-300">
+      <body className="antialiased bg-[var(--background)] text-[var(--foreground)] transition-colors duration-300" suppressHydrationWarning>
         <ThemeProvider>
           <LanguageProvider>
             {children}
