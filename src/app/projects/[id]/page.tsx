@@ -7,13 +7,36 @@ import { notFound, useParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
 import { useTheme } from "@/context/ThemeContext";
-import { Sun, Moon } from "lucide-react";
+import { Sun, Moon, X } from "lucide-react";
+import { AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
 
 export default function ProjectDetail() {
   const params = useParams();
   const { language, setLanguage, t } = useLanguage();
   const { theme, toggleTheme } = useTheme();
+  const [selectedImage, setSelectedImage] = useState<{ url: string; alt: string; aspect?: string } | null>(null);
+
   const project = projects.find((p) => p.id === params.id);
+
+  // Prevent scroll and handle ESC key
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setSelectedImage(null);
+    };
+
+    if (selectedImage) {
+      document.body.style.overflow = 'hidden';
+      window.addEventListener('keydown', handleEsc);
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    
+    return () => {
+      document.body.style.overflow = 'unset';
+      window.removeEventListener('keydown', handleEsc);
+    };
+  }, [selectedImage]);
 
   if (!project) {
     return notFound();
@@ -21,6 +44,53 @@ export default function ProjectDetail() {
 
   return (
     <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] pb-24">
+      {/* Lightbox */}
+      <AnimatePresence>
+        {selectedImage && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedImage(null)}
+            className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md flex items-center justify-center p-4 md:p-10 cursor-pointer"
+          >
+            <motion.button
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="absolute top-4 right-4 md:top-8 md:right-8 text-white/50 hover:text-white transition-colors p-2 z-[110] bg-white/10 rounded-full backdrop-blur-md"
+              onClick={() => setSelectedImage(null)}
+            >
+              <X size={24} className="md:w-8 md:h-8" strokeWidth={1.5} />
+            </motion.button>
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className={`relative w-full max-w-7xl px-4 ${
+                selectedImage.aspect === 'portrait' ? 'h-[85vh] max-w-[60vh]' : 
+                selectedImage.aspect === 'square' ? 'h-[80vw] max-h-[80vh] max-w-[80vh]' :
+                'h-[auto] aspect-video'
+              } flex items-center justify-center`}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="relative w-full h-full">
+                <Image
+                  src={selectedImage.url}
+                  alt={selectedImage.alt}
+                  fill
+                  quality={100}
+                  priority
+                  className="object-contain"
+                  sizes="(max-width: 768px) 100vw, 90vw"
+                />
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 px-6 md:px-8 py-5 flex justify-between items-center bg-[var(--background)]/90 backdrop-blur-sm border-b border-[var(--border)]">
         <Link href="/" className="text-sm font-medium tracking-widest uppercase text-[var(--text-muted)] hover:text-[var(--foreground)] transition-colors duration-300">
@@ -93,13 +163,16 @@ export default function ProjectDetail() {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.6, delay: 0.3 + idx * 0.15, ease: "easeOut" }}
+                      className="group cursor-pointer"
+                      onClick={() => setSelectedImage({ url: item.url, alt: item.caption[language], aspect: item.aspect })}
                     >
-                      <div className={`relative w-full overflow-hidden bg-[var(--border)] mb-4 ${
+                      <div className={`relative w-full overflow-hidden bg-[var(--border)] mb-4 transition-transform duration-500 group-hover:scale-[1.02] ${
                         item.aspect === 'square' ? 'aspect-square' : 
                         item.aspect === '4/3' ? 'aspect-[4/3]' : 
                         item.aspect === 'portrait' ? 'aspect-[3/4]' :
                         'aspect-video'
                       }`}>
+
                         <Image
                           src={item.url}
                           alt={item.caption[language]}
@@ -128,12 +201,14 @@ export default function ProjectDetail() {
                   .map((item, idx) => (
                     <motion.div 
                       key={idx} 
-                      className="group"
+                      className="group cursor-pointer"
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.6, delay: 0.3 + idx * 0.15, ease: "easeOut" }}
+                      onClick={() => setSelectedImage({ url: item.url, alt: item.caption[language] })}
                     >
-                      <div className="relative aspect-[4/3] overflow-hidden bg-[var(--card)] border border-[var(--border)] mb-4 p-8">
+                      <div className="relative aspect-[4/3] overflow-hidden bg-[var(--card)] border border-[var(--border)] mb-4 p-8 transition-transform duration-500 group-hover:scale-[1.02]">
+
                         <Image
                           src={item.url}
                           alt={item.caption[language]}
@@ -165,12 +240,15 @@ export default function ProjectDetail() {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.6, delay: 0.3 + idx * 0.15, ease: "easeOut" }}
+                      className="group cursor-pointer"
+                      onClick={() => setSelectedImage({ url: item.url, alt: item.caption[language], aspect: item.aspect })}
                     >
-                      <div className={`relative overflow-hidden bg-[var(--border)] mb-4 ${
+                      <div className={`relative overflow-hidden bg-[var(--border)] mb-4 transition-transform duration-500 group-hover:scale-[1.02] ${
                         item.aspect === 'square' ? 'aspect-square' : 
                         item.aspect === '4/3' ? 'aspect-[4/3]' : 
                         'aspect-video'
                       }`}>
+
                         <Image
                           src={item.url}
                           alt={item.caption[language]}

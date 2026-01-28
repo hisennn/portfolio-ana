@@ -19,7 +19,7 @@ const translations = {
     "nav.contact": "Contact",
 
     // Hero
-    "hero.subtitle": "Portfolio 2025",
+    "hero.subtitle": "Portfolio",
     "hero.description": "Architectural Designer, 3D modeling, and photorealistic renderings.",
     "hero.location": "São Paulo, Brazil",
     "hero.scroll": "Scroll Down",
@@ -66,7 +66,7 @@ const translations = {
     "nav.contact": "Contato",
 
     // Hero
-    "hero.subtitle": "Portfólio 2025",
+    "hero.subtitle": "Portfólio",
     "hero.description": "Arquiteta focada em modelagem 3D e renderizações fotorrealistas.",
     "hero.location": "São Paulo, Brasil",
     "hero.scroll": "Role para baixo",

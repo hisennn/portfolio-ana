@@ -48,7 +48,7 @@ export const projects: Project[] = [
     title: { en: "Social Area & Balcony", pt: "Área Social e Varanda" },
     description: { 
       en: "Living room, dining area, and gourmet balcony designed for gatherings.", 
-      pt: "Sala de estar, jantar e varanda gourmet projetados para receber." 
+      pt: "Sala de estar, jantar e varanda gourmet." 
     },
     role: { en: "3D Modeling & Rendering", pt: "Modelagem 3D e Renderização" },
     company: "Patrícia Ribeiro Design de Interiores",
