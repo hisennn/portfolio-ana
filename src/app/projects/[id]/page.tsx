@@ -12,13 +12,32 @@ import { projects } from "@/data/projects";
 import { useLanguage } from "@/context/LanguageContext";
 import { useTheme } from "@/context/ThemeContext";
 
-export default function ProjectDetail() {
-  const params = useParams();
-  const { language, setLanguage, t } = useLanguage();
-  const { theme, toggleTheme } = useTheme();
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const [lightboxOpen, setLightboxOpen] = useState(false);
+interface ProjectSectionProps {
+  sectionTitle: string;
+  images: {
+    type: "render" | "technical" | "sketchup";
+    url: string;
+    caption: { en: string; pt: string };
+    aspect?: "square" | "video" | "4/3" | "portrait";
+  }[];
+  role: string;
+  technologies: string[];
+  language: "en" | "pt";
+  onImageClick: (index: number) => void;
+  imageLabel: string;
+  ofLabel: string;
+}
 
+function ProjectSection({
+  sectionTitle,
+  images,
+  technologies,
+  language,
+  onImageClick,
+  imageLabel,
+  ofLabel,
+}: ProjectSectionProps) {
+  const [selectedIndex, setSelectedIndex] = useState(0);
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
   const [thumbsRef, thumbsApi] = useEmblaCarousel({
     dragFree: true,
@@ -56,12 +75,154 @@ export default function ProjectDetail() {
     [emblaApi]
   );
 
+  const currentImage = images[selectedIndex] ?? images[0];
+
+  return (
+    <div className="space-y-6">
+      {sectionTitle && (
+        <h3 className="font-cormorant text-2xl md:text-3xl text-[var(--foreground)] border-b border-[var(--border)] pb-3">
+          {sectionTitle}
+        </h3>
+      )}
+      <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_320px] items-start">
+        <div className="space-y-6">
+          <div className="relative">
+            <div
+              ref={emblaRef}
+              className="overflow-hidden bg-[var(--card)] shadow-[0_24px_60px_-36px_rgba(0,0,0,0.5)]"
+            >
+              <div className="flex">
+                {images.map((item, index) => (
+                  <div className="flex-[0_0_100%]" key={item.url}>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedIndex(index);
+                        onImageClick(index);
+                      }}
+                      className="relative w-full aspect-[4/3] md:aspect-[16/10] bg-[var(--card)]"
+                    >
+                      <Image
+                        src={item.url}
+                        alt={item.caption[language]}
+                        fill
+                        className="object-contain"
+                        sizes="(max-width: 1024px) 90vw, 70vw"
+                        priority={index === 0}
+                      />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="absolute left-4 top-4 bg-black/50 px-3 py-1 text-[10px] uppercase tracking-[0.3em] text-white/80">
+              {imageLabel} {selectedIndex + 1} {ofLabel} {images.length}
+            </div>
+
+            <button
+              type="button"
+              onClick={scrollPrev}
+              className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white/80 hover:text-white hover:bg-black/70 transition-colors"
+              aria-label="Previous image"
+            >
+              <ChevronLeft size={20} />
+            </button>
+            <button
+              type="button"
+              onClick={scrollNext}
+              className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white/80 hover:text-white hover:bg-black/70 transition-colors"
+              aria-label="Next image"
+            >
+              <ChevronRight size={20} />
+            </button>
+          </div>
+
+          <div ref={thumbsRef} className="overflow-hidden py-2 -mx-4 px-4">
+            <div className="flex gap-3">
+              {images.map((item, index) => (
+                <button
+                  type="button"
+                  key={`${item.url}-thumb`}
+                  onClick={() => onThumbClick(index)}
+                  className={`relative flex-[0_0_96px] sm:flex-[0_0_112px] aspect-[4/3] transition-all duration-200 ${
+                    index === selectedIndex
+                      ? "ring-2 ring-[var(--foreground)] z-10"
+                      : "opacity-60 hover:opacity-100"
+                  }`}
+                >
+                  <Image
+                    src={item.url}
+                    alt={item.caption[language]}
+                    fill
+                    className="object-cover"
+                    sizes="120px"
+                  />
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <aside className="lg:sticky lg:top-28">
+          <div className="space-y-5">
+            <div className="text-xs uppercase tracking-[0.28em] text-[var(--text-muted)]">
+              {imageLabel} {selectedIndex + 1} {ofLabel} {images.length}
+            </div>
+            <p className="text-xl md:text-2xl font-light text-[var(--foreground)] leading-snug min-h-[96px]">
+              {currentImage?.caption[language]}
+            </p>
+            <div className="text-sm text-[var(--text-muted)] uppercase tracking-[0.2em]">
+              {technologies.join(" · ")}
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  );
+}
+
+export default function ProjectDetail() {
+  const params = useParams();
+  const { language, setLanguage, t } = useLanguage();
+  const { theme, toggleTheme } = useTheme();
+  
+  // Page-level lightbox state
+  const [lightbox, setLightbox] = useState<{
+    images: {
+      type: "render" | "technical" | "sketchup";
+      url: string;
+      caption: { en: string; pt: string };
+      aspect?: "square" | "video" | "4/3" | "portrait";
+    }[];
+    index: number;
+  } | null>(null);
+
+  const project = projects.find((p) => p.id === params.id);
+
+  const lightboxPrev = useCallback(() => {
+    setLightbox((current) => {
+      if (!current) return current;
+      const nextIndex =
+        (current.index - 1 + current.images.length) % current.images.length;
+      return { ...current, index: nextIndex };
+    });
+  }, []);
+
+  const lightboxNext = useCallback(() => {
+    setLightbox((current) => {
+      if (!current) return current;
+      const nextIndex = (current.index + 1) % current.images.length;
+      return { ...current, index: nextIndex };
+    });
+  }, []);
+
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setLightboxOpen(false);
+      if (e.key === "Escape") setLightbox(null);
     };
 
-    if (lightboxOpen) {
+    if (lightbox) {
       document.body.style.overflow = "hidden";
       window.addEventListener("keydown", handleEsc);
     } else {
@@ -72,39 +233,36 @@ export default function ProjectDetail() {
       document.body.style.overflow = "unset";
       window.removeEventListener("keydown", handleEsc);
     };
-  }, [lightboxOpen]);
-
-  const imageLabel = language === "pt" ? "Imagem" : "Image";
-  const ofLabel = language === "pt" ? "de" : "of";
-
-  const project = projects.find((p) => p.id === params.id);
+  }, [lightbox]);
 
   if (!project) {
     return notFound();
   }
 
-  const images = project.gallery;
-  const currentImage = images[selectedIndex] ?? images[0];
+  const imageLabel = language === "pt" ? "Imagem" : "Image";
+  const ofLabel = language === "pt" ? "de" : "of";
+  const lightboxImage = lightbox?.images[lightbox.index] ?? null;
+  const hasSections = Boolean(project.sections && project.sections.length > 0);
 
   return (
     <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] pb-24">
       <AnimatePresence>
-        {lightboxOpen && currentImage && (
+        {lightbox && lightboxImage && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={() => setLightboxOpen(false)}
+            onClick={() => setLightbox(null)}
             className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md flex items-center justify-center p-4 md:p-10 cursor-pointer"
           >
             <div className="absolute top-4 left-4 md:top-8 md:left-8 text-[10px] uppercase tracking-[0.3em] text-white/70 bg-white/10 px-3 py-1">
-              {imageLabel} {selectedIndex + 1} {ofLabel} {images.length}
+              {imageLabel} {lightbox.index + 1} {ofLabel} {lightbox.images.length}
             </div>
             <motion.button
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               className="absolute top-4 right-4 md:top-8 md:right-8 text-white/50 hover:text-white transition-colors p-2 z-[110] bg-white/10 backdrop-blur-md rounded-full"
-              onClick={() => setLightboxOpen(false)}
+              onClick={() => setLightbox(null)}
             >
               <X size={24} className="md:w-8 md:h-8" strokeWidth={1.5} />
             </motion.button>
@@ -115,9 +273,9 @@ export default function ProjectDetail() {
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
               className={`relative w-full max-w-7xl px-4 ${
-                currentImage.aspect === "portrait"
+                lightboxImage.aspect === "portrait"
                   ? "h-[85vh] max-w-[60vh]"
-                  : currentImage.aspect === "square"
+                  : lightboxImage.aspect === "square"
                   ? "h-[80vw] max-h-[80vh] max-w-[80vh]"
                   : "h-[auto] aspect-video"
               } flex items-center justify-center`}
@@ -125,8 +283,8 @@ export default function ProjectDetail() {
             >
               <div className="relative w-full h-full">
                 <Image
-                  src={currentImage.url}
-                  alt={currentImage.caption[language]}
+                  src={lightboxImage.url}
+                  alt={lightboxImage.caption[language]}
                   fill
                   quality={100}
                   priority
@@ -140,7 +298,7 @@ export default function ProjectDetail() {
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
-                scrollPrev();
+                lightboxPrev();
               }}
               className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 p-3 bg-white/10 text-white/70 hover:text-white hover:bg-white/20 transition-colors rounded-full"
               aria-label="Previous image"
@@ -151,7 +309,7 @@ export default function ProjectDetail() {
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
-                scrollNext();
+                lightboxNext();
               }}
               className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 p-3 bg-white/10 text-white/70 hover:text-white hover:bg-white/20 transition-colors rounded-full"
               aria-label="Next image"
@@ -227,103 +385,34 @@ export default function ProjectDetail() {
           </p>
         </motion.div>
 
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_320px] items-start">
-          <div className="space-y-6">
-            <div className="relative">
-              <div
-                ref={emblaRef}
-                className="overflow-hidden bg-[var(--card)] shadow-[0_24px_60px_-36px_rgba(0,0,0,0.5)]"
-              >
-                <div className="flex">
-                  {images.map((item, index) => (
-                    <div className="flex-[0_0_100%]" key={item.url}>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setSelectedIndex(index);
-                          setLightboxOpen(true);
-                        }}
-                        className="relative w-full aspect-[4/3] md:aspect-[16/10] bg-[var(--card)]"
-                      >
-                        <Image
-                          src={item.url}
-                          alt={item.caption[language]}
-                          fill
-                          className="object-contain"
-                          sizes="(max-width: 1024px) 90vw, 70vw"
-                          priority={index === 0}
-                        />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="absolute left-4 top-4 bg-black/50 px-3 py-1 text-[10px] uppercase tracking-[0.3em] text-white/80">
-                {imageLabel} {selectedIndex + 1} {ofLabel} {images.length}
-              </div>
-
-              <button
-                type="button"
-                onClick={scrollPrev}
-                className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white/80 hover:text-white hover:bg-black/70 transition-colors"
-                aria-label="Previous image"
-              >
-                <ChevronLeft size={20} />
-              </button>
-              <button
-                type="button"
-                onClick={scrollNext}
-                className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white/80 hover:text-white hover:bg-black/70 transition-colors"
-                aria-label="Next image"
-              >
-                <ChevronRight size={20} />
-              </button>
-            </div>
-
-            <div
-              ref={thumbsRef}
-              className="overflow-hidden py-2 -mx-4 px-4"
-            >
-              <div className="flex gap-3">
-                {images.map((item, index) => (
-                  <button
-                    type="button"
-                    key={`${item.url}-thumb`}
-                    onClick={() => onThumbClick(index)}
-                    className={`relative flex-[0_0_96px] sm:flex-[0_0_112px] aspect-[4/3] transition-all duration-200 ${
-                      index === selectedIndex
-                        ? "ring-2 ring-[var(--foreground)] z-10"
-                        : "opacity-60 hover:opacity-100"
-                    }`}
-                  >
-                    <Image
-                      src={item.url}
-                      alt={item.caption[language]}
-                      fill
-                      className="object-cover"
-                      sizes="120px"
-                    />
-                  </button>
-                ))}
-              </div>
-            </div>
+        {hasSections ? (
+          <div className="space-y-32">
+            {project.sections?.map((section) => (
+              <ProjectSection
+                key={section.id}
+                sectionTitle={section.title[language]}
+                images={section.gallery}
+                role={project.role[language]}
+                technologies={section.technologies || project.technologies}
+                language={language}
+                onImageClick={(index) => setLightbox({ images: section.gallery, index })}
+                imageLabel={imageLabel}
+                ofLabel={ofLabel}
+              />
+            ))}
           </div>
-
-          <aside className="lg:sticky lg:top-28">
-            <div className="space-y-5">
-              <div className="text-xs uppercase tracking-[0.28em] text-[var(--text-muted)]">
-                {imageLabel} {selectedIndex + 1} {ofLabel} {images.length}
-              </div>
-              <p className="text-xl md:text-2xl font-light text-[var(--foreground)] leading-snug min-h-[96px]">
-                {currentImage?.caption[language]}
-              </p>
-              <div className="text-sm text-[var(--text-muted)] uppercase tracking-[0.2em]">
-                {project.technologies.join(" · ")}
-              </div>
-            </div>
-          </aside>
-        </div>
+        ) : (
+          <ProjectSection
+            sectionTitle=""
+            images={project.gallery}
+            role={project.role[language]}
+            technologies={project.technologies}
+            language={language}
+            onImageClick={(index) => setLightbox({ images: project.gallery, index })}
+            imageLabel={imageLabel}
+            ofLabel={ofLabel}
+          />
+        )}
       </div>
     </div>
   );

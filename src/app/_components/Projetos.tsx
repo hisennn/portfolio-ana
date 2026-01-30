@@ -20,7 +20,11 @@ export default function Projects() {
         </div>
 
         <div className="flex flex-col gap-16 md:hidden">
-          {projects.map((projeto) => (
+          {projects.map((projeto) => {
+            const previewImages = projeto.sections?.map((section) => section.mainImage).slice(0, 3);
+            const hasPreview = previewImages && previewImages.length === 3;
+
+            return (
             <motion.div
               key={projeto.id}
               initial={{ opacity: 0, y: 20 }}
@@ -35,12 +39,41 @@ export default function Projects() {
                   projeto.mainImageAspect === 'portrait' ? 'aspect-[3/4]' :
                   'aspect-[4/3]'
                 }`}>
-                  <Image
-                    src={projeto.mainImage}
-                    alt={projeto.title[language]}
-                    fill
-                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                  />
+                  {hasPreview ? (
+                    <div className="grid grid-cols-3 grid-rows-2 gap-2 w-full h-full">
+                      <div className="relative col-span-2 row-span-2">
+                        <Image
+                          src={previewImages[0]}
+                          alt={projeto.title[language]}
+                          fill
+                          className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                        />
+                      </div>
+                      <div className="relative col-span-1 row-span-1">
+                        <Image
+                          src={previewImages[1]}
+                          alt={projeto.title[language]}
+                          fill
+                          className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                        />
+                      </div>
+                      <div className="relative col-span-1 row-span-1">
+                        <Image
+                          src={previewImages[2]}
+                          alt={projeto.title[language]}
+                          fill
+                          className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                        />
+                      </div>
+                    </div>
+                  ) : (
+                    <Image
+                      src={projeto.mainImage}
+                      alt={projeto.title[language]}
+                      fill
+                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    />
+                  )}
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-500" />
                 </div>
 
@@ -64,12 +97,17 @@ export default function Projects() {
                 </div>
               </Link>
             </motion.div>
-          ))}
+          );
+          })}
         </div>
 
         <div className="hidden md:flex flex-row gap-12">
           <div className="flex flex-col gap-16 flex-1">
-            {projects.filter((_, i) => i % 2 === 0).map((projeto, i) => (
+            {projects.filter((_, i) => i % 2 === 0).map((projeto, i) => {
+              const previewImages = projeto.sections?.map((section) => section.mainImage).slice(0, 3);
+              const hasPreview = previewImages && previewImages.length === 3;
+
+              return (
               <motion.div
                 key={projeto.id}
                 initial={{ opacity: 0, y: 20 }}
@@ -84,12 +122,41 @@ export default function Projects() {
                     projeto.mainImageAspect === 'portrait' ? 'aspect-[3/4]' :
                     'aspect-[4/3]'
                   }`}>
-                    <Image
-                      src={projeto.mainImage}
-                      alt={projeto.title[language]}
-                      fill
-                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                    />
+                    {hasPreview ? (
+                      <div className="grid grid-cols-3 grid-rows-2 gap-2 w-full h-full">
+                        <div className="relative col-span-2 row-span-2">
+                          <Image
+                            src={previewImages[0]}
+                            alt={projeto.title[language]}
+                            fill
+                            className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                          />
+                        </div>
+                        <div className="relative col-span-1 row-span-1">
+                          <Image
+                            src={previewImages[1]}
+                            alt={projeto.title[language]}
+                            fill
+                            className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                          />
+                        </div>
+                        <div className="relative col-span-1 row-span-1">
+                          <Image
+                            src={previewImages[2]}
+                            alt={projeto.title[language]}
+                            fill
+                            className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                          />
+                        </div>
+                      </div>
+                    ) : (
+                      <Image
+                        src={projeto.mainImage}
+                        alt={projeto.title[language]}
+                        fill
+                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                      />
+                    )}
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-500" />
                   </div>
 
@@ -112,10 +179,15 @@ export default function Projects() {
                   </div>
                 </Link>
               </motion.div>
-            ))}
+              );
+            })}
           </div>
           <div className="flex flex-col gap-16 flex-1 mt-16">
-            {projects.filter((_, i) => i % 2 === 1).map((projeto, i) => (
+            {projects.filter((_, i) => i % 2 === 1).map((projeto, i) => {
+              const previewImages = projeto.sections?.map((section) => section.mainImage).slice(0, 3);
+              const hasPreview = previewImages && previewImages.length === 3;
+
+              return (
               <motion.div
                 key={projeto.id}
                 initial={{ opacity: 0, y: 20 }}
@@ -130,12 +202,41 @@ export default function Projects() {
                     projeto.mainImageAspect === 'portrait' ? 'aspect-[3/4]' :
                     'aspect-[4/3]'
                   }`}>
-                    <Image
-                      src={projeto.mainImage}
-                      alt={projeto.title[language]}
-                      fill
-                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                    />
+                    {hasPreview ? (
+                      <div className="grid grid-cols-3 grid-rows-2 gap-2 w-full h-full">
+                        <div className="relative col-span-2 row-span-2">
+                          <Image
+                            src={previewImages[0]}
+                            alt={projeto.title[language]}
+                            fill
+                            className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                          />
+                        </div>
+                        <div className="relative col-span-1 row-span-1">
+                          <Image
+                            src={previewImages[1]}
+                            alt={projeto.title[language]}
+                            fill
+                            className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                          />
+                        </div>
+                        <div className="relative col-span-1 row-span-1">
+                          <Image
+                            src={previewImages[2]}
+                            alt={projeto.title[language]}
+                            fill
+                            className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                          />
+                        </div>
+                      </div>
+                    ) : (
+                      <Image
+                        src={projeto.mainImage}
+                        alt={projeto.title[language]}
+                        fill
+                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                      />
+                    )}
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-500" />
                   </div>
 
@@ -158,7 +259,8 @@ export default function Projects() {
                   </div>
                 </Link>
               </motion.div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>
