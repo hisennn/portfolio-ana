@@ -1,15 +1,15 @@
 @import "tailwindcss";
 
 :root {
-  --background: #FAFAFA;
-  --foreground: #2D2D2D;
-  --muted: #6B7280;
-  --muted-foreground: #9CA3AF;
-  --border: #D1D5DB;
-  --card: #FFFFFF;
-  --text-primary: #2D2D2D;
-  --text-secondary: #4B5563;
-  --text-muted: #6B7280;
+  --background: #F9F5F1;
+  --foreground: #4A3B32;
+  --muted: #8D7B68;
+  --muted-foreground: #A89F91;
+  --border: #E6DCCA;
+  --card: #F2EBE5;
+  --text-primary: #4A3B32;
+  --text-secondary: #6B5D54;
+  --text-muted: #8D7B68;
 }
 
 .dark {
@@ -43,8 +43,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 ::selection {
-  background: #E5E7EB;
-  color: #1A1A1A;
+  background: #DCC8B3;
+  color: #4A3B32;
 }
 
 .dark ::selection {
@@ -61,7 +61,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #D1D5DB;
+  background: #C8B6A6;
   border-radius: 3px;
 }
 
@@ -70,7 +70,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #9CA3AF;
+  background: #A89F91;
 }
 
 .dark ::-webkit-scrollbar-thumb:hover {
@@ -79,7 +79,7 @@ h1, h2, h3, h4, h5, h6 {
 
 a:focus-visible,
 button:focus-visible {
-  outline: 2px solid #9CA3AF;
+  outline: 2px solid #8D7B68;
   outline-offset: 2px;
 }
 

@@ -11,7 +11,7 @@ export default function Footer() {
     : '/downloads/Ana_Zabala_Resume.pdf';
   
   return (
-    <footer id="contact" className="py-16 md:py-20 px-6 md:px-12 bg-[#2D2D2D] dark:bg-[#141414] text-white">
+    <footer id="contact" className="py-16 md:py-20 px-6 md:px-12 bg-[#2C241F] dark:bg-[#141414] text-white">
       <div className="max-w-[1200px] mx-auto">
         <div className="grid md:grid-cols-2 gap-12 md:gap-16 mb-16 md:mb-20">
           <div>
